@@ -139,7 +139,7 @@
                         </goals>
                         <configuration>
                             <outputDirectory>${project.build.directory}/dependencies-to-patch</outputDirectory>
-                            <includeArtifactIds>jnosql-communication-query</includeArtifactIds>
+                            <includeArtifactIds>jnosql-communication-query,jnosql-jakarta-persistence</includeArtifactIds>
                             <stripVersion>true</stripVersion>
                         </configuration>
                     </execution>
@@ -189,6 +189,17 @@
                             <outputDirectory>${project.build.directory}/patched/jnosql-communication-query/classes</outputDirectory>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>compile-jnosql-jakarta-persistence-patch</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <compileSourceRoots>${basedir}/src/patches/jnosql-jakarta-persistence/java</compileSourceRoots>
+                            <outputDirectory>${project.build.directory}/patched/jnosql-jakarta-persistence/classes</outputDirectory>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
 
@@ -221,6 +232,8 @@
                         </goals>
                         <configuration>
                             <target xmlns:for="ant:for">
+                                <record name="${project.build.directory}/build.log" loglevel="verbose" action="start"/>
+
                                 <taskdef resource="net/sf/antcontrib/antlib.xml" classpathref="maven.plugin.classpath" />
 
                                 <macrodef name="jarupdate">
@@ -239,10 +252,15 @@
                                     </sequential>
                                 </macrodef>
 
+																<!-- Patches below will be included in the 1.1.12 releases -->
+
                                 <!-- Patch jnosql-communication-query -->
                                 <jarupdate basedir="${project.build.directory}/patched/jnosql-communication-query/classes" destfile="${project.build.directory}/dependencies-to-patch/jnosql-communication-query.jar" />
 
-                                <!-- Copy patched jnosql-communication-query into the final bundle -->
+                                <!-- Patch jnosql-jakarta-persistence -->
+                                <jarupdate basedir="${project.build.directory}/patched/jnosql-jakarta-persistence/classes" destfile="${project.build.directory}/dependencies-to-patch/jnosql-jakarta-persistence.jar" />
+
+                                <!-- Copy patched jnosql-communication-query and jnosql-jakarta-persistence into the final bundle -->
                                 <jarupdate basedir="${project.build.directory}/dependencies-to-patch" destfile="${project.build.directory}/${project.build.finalName}.jar" />
                             </target>
                         </configuration>
