@@ -1,5 +1,6 @@
 <!--
 
+    Copyright (c) 2026 Contributors to the Eclipse Foundation
     Copyright (c) 2009, 2018 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
@@ -109,6 +110,10 @@
                         selectedOptions="#{pageSession.selectedThreadPools}");
                 />
                 </sun:listbox>
+                <sun:hyperlink id="threadPoolsManageLink" 
+                              text="#{pageSession.selectedThreadPools.length == 1 ? '$resource{i18n_corba.orb.editThreadPool}' : '$resource{i18n_corba.orb.manageThreadPools}'}" 
+                              url="#{pageSession.selectedThreadPools.length == 1 ? request.contextPath.concat('/web/configuration/threadPoolEdit.jsf?name=').concat(pageSession.selectedThreadPools[0]).concat('&configName=').concat(pageSession.configName) : request.contextPath.concat('/web/configuration/threadPools.jsf?configName=').concat(pageSession.configName)}"
+                              style="margin-left: 10px;" />
             </sun:property>
             <sun:property id="MaxMsgSizeProp"  labelAlign="left" noWrap="#{true}" overlapLabel="#{false}" label="$resource{i18n_corba.orb.maxMsgSizeLabel}" helpText="$resource{i18n_corba.orb.maxMsgSizeHelp}">
                 <sun:dropDown id="MaxMsgSize" selected="#{pageSession.valueMap['messageFragmentSize']}" labels="$pageSession{availableMsgSize}" >

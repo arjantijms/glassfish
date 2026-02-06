@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2021, 2025 Contributors to Eclipse Foundation.
+    Copyright (c) 2021, 2026 Contributors to Eclipse Foundation.
     Copyright (c) 1997, 2024 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
@@ -33,8 +33,6 @@
     <packaging>pom</packaging>
 
     <name>Eclipse GlassFish Parent Project</name>
-    <description>Eclipse GlassFish Parent Project</description>
-    <url>https://projects.eclipse.org/projects/ee4j.glassfish</url>
 
     <modules>
         <module>common</module>
@@ -72,106 +70,12 @@
         <module>ant-tasks</module>
     </modules>
 
-    <scm>
-        <connection>scm:git:git://github.com/eclipse-ee4j/glassfish.git</connection>
-        <developerConnection>scm:git:git://github.com/eclipse-ee4j/glassfish.git</developerConnection>
-        <url>https://github.com/eclipse-ee4j/glassfish</url>
-    </scm>
-
     <properties>
         <glassfish.version>${project.version}</glassfish.version>
 
-        <!-- Jakarta EE platform -->
-        <jakartaee>11</jakartaee>
-        <jakarta.platform.version>11.0.0</jakarta.platform.version>
-
-        <!-- Jakarta API Versions -->
-
-        <!-- Jakarta Faces -->
-        <jakarta.faces-api.version>4.1.2</jakarta.faces-api.version>
-        <mojarra.version>4.1.5</mojarra.version>
-
-        <!-- Jakarta WebSocket -->
-        <jakarta.websocket-api.version>2.2.0</jakarta.websocket-api.version>
-        <tyrus.version>2.2.1</tyrus.version>
-
-        <!-- Jakarta Concurrency -->
-        <jakarta.concurrent-api.version>3.1.1</jakarta.concurrent-api.version>
-        <concurro.version>3.1.0</concurro.version>
-
-        <!-- Jakarta Interceptors -->
-        <jakarta.interceptor-api.version>2.2.0</jakarta.interceptor-api.version>
-
-        <!-- Jakarta Security + Authentication/Authorization -->
-        <!-- APIs -->
-        <jakarta.security-api.version>4.0.0</jakarta.security-api.version>
-        <jakarta.authorization-api.version>3.0.0</jakarta.authorization-api.version>
-        <jakarta.authentication-api.version>3.1.0</jakarta.authentication-api.version>
-        <!-- Implementations -->
-        <soteria.version>4.0.2</soteria.version>
-        <exousia.version>3.0.1</exousia.version>
-        <epicyro.version>3.1.1</epicyro.version>
-        <nimbus.version>10.6</nimbus.version>
-        <jcip.version>1.0.2</jcip.version>
-
-        <!-- Jakarta Messaging -->
-        <jakarta.messaging-api.version>3.1.0</jakarta.messaging-api.version>
-        <openmq.version>6.7.0</openmq.version>
-
-        <!-- Jakarta Data / NoSQL -->
-        <jakarta.data-api.version>1.0.1</jakarta.data-api.version>
-        <jakarta.data.spec.version>1.0</jakarta.data.spec.version>
-        <jakarta.nosql-api.version>1.0.1</jakarta.nosql-api.version>
-        <jakarta.nosql.spec.version>1.0.1</jakarta.nosql.spec.version>
-        <jnosql.version>1.1.11</jnosql.version>
-
-        <!-- Jakarta Persistence -->
-        <jakarta.persistence-api.version>3.2.0</jakarta.persistence-api.version>
-        <eclipselink.version>5.0.0-B11</eclipselink.version>
-        <eclipselink.asm.version>9.9.0</eclipselink.asm.version>
-
-        <!-- Jakarta Transactions -->
-        <jakarta.transaction-api.version>2.0.1</jakarta.transaction-api.version>
-
-        <!-- Jakarta Connectors -->
-        <jakarta.resource-api.version>2.1.0</jakarta.resource-api.version>
-
-        <!-- Jakarta Batch -->
-        <jakarta.batch-api.version>2.1.1</jakarta.batch-api.version>
-        <jbatch.version>2.1.1</jbatch.version>
-
-        <!-- Jakarta Enterprise beans -->
-        <jakarta.ejb-api.version>4.0.1</jakarta.ejb-api.version>
-
-        <!-- Jakarta JSON -->
-        <jakarta.jsonp-api.version>2.1.3</jakarta.jsonp-api.version>
-        <parsson.version>1.1.7</parsson.version>
-        <parsson-media.version>1.1.7</parsson-media.version>
-        <jakarta.json.bind-api.version>3.0.1</jakarta.json.bind-api.version>
-        <yasson.version>3.0.4</yasson.version>
-
-        <!-- Jakarta Pages and Jakarta Standard Tag Library -->
-        <jakarta.pages-api.version>4.0.0</jakarta.pages-api.version>
-        <jstl-api.version>3.0.2</jstl-api.version>
-        <wasp.version>4.0.0</wasp.version>
-
-        <!-- Used for Jakarta SOAP (XML Web Services) -->
-        <xmlsec.version>4.0.4</xmlsec.version>
-        <woodstox.version>7.1.1</woodstox.version>
-        <stax2-api.version>4.2.2</stax2-api.version>
-
-        <!-- Jakarta CDI -->
-        <jakarta.cdi-api.version>4.1.0</jakarta.cdi-api.version>
-        <weld.version>6.0.3.Final</weld.version>
-        <jboss.classfilewriter.version>1.3.1.Final</jboss.classfilewriter.version>
-
-        <!-- Jakarta MVC -->
-        <jakarta.mvc-api.version>3.0.0</jakarta.mvc-api.version>
-        <krazo.version>4.0.1</krazo.version>
-
         <!-- MicroProfile Config -->
         <microprofile.config-api.version>3.1</microprofile.config-api.version>
-        <helidon-config.version>4.2.4</helidon-config.version>
+        <helidon-config.version>4.3.3</helidon-config.version>
 
 
         <!-- MicroProfile Health -->
@@ -186,12 +90,11 @@
         <reactive-streams.version>1.0.4</reactive-streams.version>
 
         <!-- Admin console components -->
-        <jsftemplating.version>4.1.0-M1</jsftemplating.version>
+        <jsftemplating.version>4.1.0</jsftemplating.version>
         <jsf-ext.version>0.2</jsf-ext.version>
-        <woodstock.version>6.0.2</woodstock.version>
+        <woodstock.version>6.0.3</woodstock.version>
         <woodstock-dataprovider.version>1.0</woodstock-dataprovider.version>
         <woodstock-json.version>2.0</woodstock-json.version>
-        <woodstock-prototype.version>1.7.3</woodstock-prototype.version>
 
         <!-- Other -->
         <dbschema.version>6.7</dbschema.version>
@@ -525,7 +428,7 @@
             <dependency>
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
-                <version>1.20.0</version>
+                <version>1.21.0</version>
                 <scope>provided</scope>
             </dependency>
             <dependency>
@@ -551,18 +454,6 @@
                 <version>${jakarta.jaxb-impl.version}</version>
             </dependency>
 
-            <!-- Jakarta CDI -->
-            <dependency>
-                <groupId>jakarta.enterprise</groupId>
-                <artifactId>jakarta.enterprise.cdi-api</artifactId>
-                <version>${jakarta.cdi-api.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>jakarta.inject</groupId>
-                        <artifactId>jakarta.inject</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
             <dependency>
                 <groupId>jakarta.enterprise</groupId>
                 <artifactId>jakarta.enterprise.lang-model</artifactId>
@@ -682,9 +573,9 @@
                 <version>${woodstock.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.sun.woodstock.dependlibs</groupId>
+                <groupId>org.glassfish.woodstock.external</groupId>
                 <artifactId>prototype</artifactId>
-                <version>${woodstock-prototype.version}</version>
+                <version>${woodstock.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.sun.woodstock.dependlibs</groupId>
@@ -824,11 +715,11 @@
                             <artifact>
                                 <groupId>jakarta.activation</groupId>
                                 <artifactId>jakarta.activation-api</artifactId>
-                                <version>${activation.version}</version>
+                                <version>${jakarta.activation-api.version}</version>
                             </artifact>
                             <jarType>api</jarType>
                             <specVersion>2.1</specVersion>
-                            <specImplVersion>${activation.version}</specImplVersion>
+                            <specImplVersion>${jakarta.activation-api.version}</specImplVersion>
                             <apiPackage>jakarta.activation</apiPackage>
                         </spec>
                         <spec>

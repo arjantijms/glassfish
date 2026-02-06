@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023 Contributors to the Eclipse Foundation.
+ * Copyright (c) 2023, 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2021 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -51,7 +51,6 @@ public final class SolarisRealm extends Realm {
     // Descriptive string of the authentication type of this realm.
     public static final String AUTH_TYPE = "solaris";
     public static final String OS_ARCH = "os.arch";
-    public static final String SOL_SPARC_OS_ARCH = "sparc";
     public static final String SOL_X86_OS_ARCH = "x86";
 
     private HashMap groupCache;
@@ -61,9 +60,7 @@ public final class SolarisRealm extends Realm {
     // Library for native methods
     static {
         osArchType = System.getProperty(OS_ARCH);
-        if (SOL_SPARC_OS_ARCH.equals(osArchType)) {
-            System.loadLibrary("solsparcauth");
-        } else if (SOL_X86_OS_ARCH.equals(osArchType)) {
+        if (SOL_X86_OS_ARCH.equals(osArchType)) {
             System.loadLibrary("solx86auth");
         }
     }
@@ -191,13 +188,11 @@ public final class SolarisRealm extends Realm {
 
     /**
      * Native method. Authenticate using PAM.
-     *
      */
     private static native String[] nativeAuthenticate(String user, String password);
 
     /**
      * Native method. Retrieve Solaris groups for user.
-     *
      */
     private static native String[] nativeGetGroups(String user);
 

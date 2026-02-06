@@ -151,9 +151,9 @@ Use the `jstat` utility to monitor Java Virtual Machine statistics. (See
 xref:#further-information[Further Information].)
 
 For detailed information on tuning the garbage collector, see
-https://docs.oracle.com/en/java/javase/17/gctuning/introduction-garbage-collection-tuning.html[Java
+https://docs.oracle.com/en/java/javase/21/gctuning/introduction-garbage-collection-tuning.html[Java
  Garbage Collection Tuning]
-(` https://docs.oracle.com/en/java/javase/17/gctuning/introduction-garbage-collection-tuning.html`).
+(` https://docs.oracle.com/en/java/javase/21/gctuning/introduction-garbage-collection-tuning.html`).
 
 [[tracing-garbage-collection]]
 
@@ -500,6 +500,6 @@ documentation for rebase utility]
 
 For more information on the jstat command, see:
 
-* https://docs.oracle.com/en/java/javase/17/docs/specs/man/jstat.html[
+* https://docs.oracle.com/en/java/javase/21/docs/specs/man/jstat.html[
 The jstat Command]
-(`https://docs.oracle.com/en/java/javase/17/docs/specs/man/jstat.html`)
+(`https://docs.oracle.com/en/java/javase/21/docs/specs/man/jstat.html`)

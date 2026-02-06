@@ -107,19 +107,17 @@
                             groupId=io.helidon.common;artifactId=helidon-common-context,
                             groupId=io.helidon.common;artifactId=helidon-common-mapper,
                             groupId=io.helidon.common;artifactId=helidon-common-media-type,
-                            groupId=io.helidon.common;artifactId=helidon-common-service-loader,
                             groupId=io.helidon.common;artifactId=helidon-common-types,
-
 
                             groupId=io.helidon.config;artifactId=helidon-config,
                             groupId=io.helidon.config;artifactId=helidon-config-mp,
                             groupId=io.helidon.config;artifactId=helidon-config-yaml,
                             groupId=io.helidon.config;artifactId=helidon-config-yaml-mp,
                             groupId=io.helidon.builder;artifactId=helidon-builder-api,
-                            groupId=io.helidon.inject;artifactId=helidon-inject-api,
                             groupId=io.helidon.logging;artifactId=helidon-logging-common,
                             groupId=io.helidon.service;artifactId=helidon-service-registry,
                             groupId=io.helidon.service;artifactId=helidon-service-metadata,
+                            groupId=io.helidon.metadata;artifactId=helidon-metadata,
                             groupId=io.helidon.metadata;artifactId=helidon-metadata-hson,
 
                             artifactId=snakeyaml,

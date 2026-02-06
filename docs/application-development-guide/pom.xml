@@ -30,7 +30,7 @@
     <artifactId>application-development-guide</artifactId>
     <packaging>jar</packaging>
 
-    <name>Eclipse GlassFish Application Development Guide, Release 9</name>
+    <name>Eclipse GlassFish Application Development Guide, Release 8</name>
 
     <build>
         <plugins>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2021, 2024 Contributors to Eclipse Foundation.
+ * Copyright (c) 2021, 2026 Contributors to Eclipse Foundation.
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright 2004 The Apache Software Foundation
  *
@@ -54,7 +54,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -270,11 +269,6 @@ public class StandardContext extends ContainerBase implements Context, ServletCo
      * The alternate deployment descriptor name.
      */
     private String altDDName;
-
-    /**
-     * The antiJARLocking flag for this Context.
-     */
-    private boolean antiJARLocking;
 
     /**
      * Associated host name.
@@ -964,24 +958,6 @@ public class StandardContext extends ContainerBase implements Context, ServletCo
         boolean oldAvailable = this.available;
         this.available = available;
         support.firePropertyChange("available", Boolean.valueOf(oldAvailable), Boolean.valueOf(this.available));
-    }
-
-    /**
-     * @return the antiJARLocking flag for this Context.
-     */
-    public boolean getAntiJARLocking() {
-        return antiJARLocking;
-    }
-
-    /**
-     * Set the antiJARLocking feature for this Context.
-     *
-     * @param antiJARLocking The new flag value
-     */
-    public void setAntiJARLocking(boolean antiJARLocking) {
-        boolean oldAntiJARLocking = this.antiJARLocking;
-        this.antiJARLocking = antiJARLocking;
-        support.firePropertyChange("antiJARLocking", oldAntiJARLocking, this.antiJARLocking);
     }
 
     @Override
@@ -6324,68 +6300,6 @@ public class StandardContext extends ContainerBase implements Context, ServletCo
         return clazz.getDeclaredConstructor().newInstance();
     }
 
-    /**
-     * Custom security manager responsible for enforcing permission check on
-     * ServletContext#getClassLoader if necessary.
-     */
-    private static class MySecurityManager extends SecurityManager {
-
-        /**
-         * @return true if the specified class loader <code>cl</code> can be found in the class
-         *         loader delegation chain of the <code>start</code> class loader, false otherwise
-         */
-        boolean isAncestor(ClassLoader start, ClassLoader cl) {
-            ClassLoader acl = start;
-            do {
-                acl = acl.getParent();
-                if (cl == acl) {
-                    return true;
-                }
-            } while (acl != null);
-            return false;
-        }
-
-
-        /**
-         * Checks whether access to the webapp class loader associated with this Context should be
-         * granted to the caller of ServletContext#getClassLoader.
-         * If no security manager exists, this method returns immediately.
-         * Otherwise, it calls the security manager's checkPermission method with the getClassLoader
-         * permission if the class loader of the caller of ServletContext#getClassLoader is not the
-         * same as, or an ancestor of the webapp class loader associated with this Context.
-         */
-        void checkGetClassLoaderPermission(ClassLoader webappLoader) {
-            SecurityManager sm = System.getSecurityManager();
-            if (sm == null) {
-                return;
-            }
-
-            // Get the current execution stack as an array of classes
-            Class<?>[] classContext = getClassContext();
-
-            /*
-             * Determine the caller of ServletContext#getClassLoader:
-             *
-             * classContext[0]: org.apache.catalina.core.StandardContext$MySecurityManager classContext[1]:
-             * org.apache.catalina.core.StandardContext classContext[2]: org.apache.catalina.core.StandardContext classContext[3]:
-             * org.apache.catalina.core.ApplicationContext classContext[4]: org.apache.catalina.core.ApplicationContextFacade
-             * classContext[5]: Caller whose classloader to check
-             *
-             * NOTE: INDEX MUST BE ADJUSTED WHENEVER EXECUTION STACK CHANGES, E.G., DUE TO CODE BEING REORGANIZED
-             */
-            ClassLoader ccl = classContext[5].getClassLoader();
-            if (ccl != null && ccl != webappLoader && !isAncestor(webappLoader, ccl)) {
-                sm.checkPermission(GET_CLASSLOADER_PERMISSION);
-            }
-        }
-    }
-
-    private static class PrivilegedCreateSecurityManager implements PrivilegedAction<MySecurityManager> {
-        @Override
-        public MySecurityManager run() {
-            return new MySecurityManager();
-        }
-    }
 
     /**
      * List resource paths (recursively), and store all of them in the given Set.

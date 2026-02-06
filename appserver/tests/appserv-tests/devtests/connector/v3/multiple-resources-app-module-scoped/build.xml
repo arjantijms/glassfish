@@ -93,8 +93,6 @@
 
     <target name="setup">
 
-        <antcall target="setup-security-permission"/>
-
         <ant dir="app" inheritAll="false" target="setupJdbc"/>
 
         <ant dir="." inheritAll="false" target="deploy"/>
@@ -179,8 +177,6 @@
         <antcall target="delete-user-common">
             <param name="user" value="guest"/>
         </antcall>
-
-        <antcall target="restore-default-security-permission"/>
 
         <ant dir="." inheritAll="false" target="restart"/>
     </target>
@@ -278,27 +274,4 @@
             <arg line="${map.name}"/>
         </exec>
     </target>
-
-
-    <target name="setup-security-permission" depends="init-common">
-        <antcall target="stop-server"/>
-        <echo message="taking backup of server.policy file"/>
-        <copy description="backup server.policy file" file="${admin.domain.dir}/${admin.domain}/config/server.policy"
-              tofile="${admin.domain.dir}/${admin.domain}/config/server.policy.bkp"/>
-        <concat destfile="${admin.domain.dir}/${admin.domain}/config/server.policy" append="true">
-            <filelist dir="." files="server.policy"/>
-        </concat>
-        <echo message="updated server.policy file with necessary security permissions"/>
-        <antcall target="start-server"/>
-    </target>
-
-    <target name="restore-default-security-permission" depends="init-common">
-        <antcall target="stop-server"/>
-        <move description="restore server.policy file"
-              file="${admin.domain.dir}/${admin.domain}/config/server.policy.bkp"
-              tofile="${admin.domain.dir}/${admin.domain}/config/server.policy"/>
-        <echo message="restored original server.policy file"/>
-        <antcall target="start-server"/>
-    </target>
-
 </project>

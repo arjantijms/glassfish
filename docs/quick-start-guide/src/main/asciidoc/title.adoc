@@ -14,7 +14,7 @@ Quick Start Guide
 
 Release {product-majorVersion}
 
-Contributed 2018 - 2024
+Contributed 2018 - 2026
 
 This book demonstrates key features of the {productName} product and
 enables you to quickly learn the basics. Step-by-step procedures
@@ -27,6 +27,9 @@ Quick Start Guide you to use them immediately.
 
 {productName} Quick Start Guide, Release {product-majorVersion}
 
+Copyright (c) 2025 Contributors to the Eclipse Foundation. All rights reserved.
+
+Copyright © 2019,2026 Contributors to the Eclipse Foundation.
 Copyright © 2013, 2019 Oracle and/or its affiliates. All rights reserved.
 
 This program and the accompanying materials are made available under the

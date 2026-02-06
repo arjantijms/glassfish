@@ -14,7 +14,7 @@ Installation Guide
 
 Release {product-majorVersion}
 
-Contributed 2018 - 2024
+Contributed 2018 - 2026
 
 This book contains instructions for installing and uninstalling
 {productName} software.
@@ -24,6 +24,8 @@ This book contains instructions for installing and uninstalling
 '''''
 
 {productName} Installation Guide, Release {product-majorVersion}
+
+Copyright (c) 2025 Contributors to the Eclipse Foundation. All rights reserved.
 
 Copyright © 2010, 2019 Oracle and/or its affiliates. All rights reserved.
 

@@ -32,7 +32,7 @@
     &testproperties;
     &run;
 
-    <target name="all" depends="create-user,setup-policy,build,deploy,run,undeploy,remove-user,restore-policy"/>
+    <target name="all" depends="create-user,build,deploy,run,undeploy,remove-user"/>
 
     <target name="clean" depends="init-common">
       <antcall target="clean-common"/>
@@ -68,14 +68,6 @@
         </antcall>
     </target>
 
-    <target name="setup-policy" depends="init-common">
-        <move file="${env.S1AS_HOME}/domains/${admin.domain}/config/server.policy"
-              tofile="${env.S1AS_HOME}/domains/${admin.domain}/config/server.policy.SAVE"/>
-        <copy file="server.policy"
-              tofile="${env.S1AS_HOME}/domains/${admin.domain}/config/server.policy"/>
-        <antcall target="restart-server-instance-common"/>
-    </target>
-
     <target name="re-deploy" depends="init-common">
         <antcall target="deploy-war-common"/>
     </target>
@@ -106,12 +98,6 @@
         <antcall target="delete-user-common">
             <param name="user" value="testuser3"/>
         </antcall>
-    </target>
-
-    <target name="restore-policy" depends="setup-policy">
-        <move file="${env.S1AS_HOME}/domains/${admin.domain}/config/server.policy.SAVE"
-              tofile="${env.S1AS_HOME}/domains/${admin.domain}/config/server.policy"/>
-        <antcall target="restart-server-instance-common"/>
     </target>
 
     <target name="usage">

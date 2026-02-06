@@ -30,5 +30,5 @@
     <artifactId>upgrade-guide</artifactId>
     <packaging>jar</packaging>
 
-    <name>Eclipse GlassFish Upgrade Guide, Release 9</name>
+    <name>Eclipse GlassFish Upgrade Guide, Release 8</name>
 </project>

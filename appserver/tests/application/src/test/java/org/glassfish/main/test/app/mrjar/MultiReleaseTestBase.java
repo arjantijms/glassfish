@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation.
+ * Copyright (c) 2023, 2026 Contributors to the Eclipse Foundation.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -44,9 +44,9 @@ import static org.objectweb.asm.Opcodes.ALOAD;
 import static org.objectweb.asm.Opcodes.ARETURN;
 import static org.objectweb.asm.Opcodes.INVOKESPECIAL;
 import static org.objectweb.asm.Opcodes.RETURN;
-import static org.objectweb.asm.Opcodes.V11;
-import static org.objectweb.asm.Opcodes.V17;
 import static org.objectweb.asm.Opcodes.V1_8;
+import static org.objectweb.asm.Opcodes.V21;
+import static org.objectweb.asm.Opcodes.V25;
 
 public class MultiReleaseTestBase {
 
@@ -59,8 +59,8 @@ public class MultiReleaseTestBase {
             .setManifest(generateManifest())
             .addClass(Version.class)
             .add(generateVersionClass(V1_8), packageJarEntryFor(VersionImpl.class, V1_8), classFileNameFor(VersionImpl.class))
-            .add(generateVersionClass(V11), packageJarEntryFor(VersionImpl.class, V11), classFileNameFor(VersionImpl.class))
-            .add(generateVersionClass(V17), packageJarEntryFor(VersionImpl.class, V17), classFileNameFor(VersionImpl.class));
+            .add(generateVersionClass(V21), packageJarEntryFor(VersionImpl.class, V21), classFileNameFor(VersionImpl.class))
+            .add(generateVersionClass(V25), packageJarEntryFor(VersionImpl.class, V25), classFileNameFor(VersionImpl.class));
     }
 
     protected static File createFileFor(Archive<?> archive, String applicationName) throws IOException {
@@ -88,11 +88,11 @@ public class MultiReleaseTestBase {
     private static String packageJarEntryFor(Class<?> c, int version) {
         StringBuilder jarTarget = new StringBuilder();
         switch (version) {
-            case V11:
-                jarTarget.append("META-INF/versions/11/");
+            case V21:
+                jarTarget.append("META-INF/versions/21/");
                 break;
-            case V17:
-                jarTarget.append("META-INF/versions/17/");
+            case V25:
+                jarTarget.append("META-INF/versions/25/");
                 break;
             default:
                 break;

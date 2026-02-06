@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 2008, 2018 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -37,7 +37,9 @@ import java.net.URL;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.ResourceBundle;
+import java.util.function.Function;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -59,7 +61,9 @@ import org.jvnet.hk2.annotations.Service;
 import org.jvnet.hk2.config.types.Property;
 
 import static java.util.logging.Level.FINE;
+import static java.util.logging.Level.FINEST;
 import static java.util.logging.Level.SEVERE;
+import static java.util.logging.Level.WARNING;
 import static javax.xml.stream.XMLStreamConstants.END_DOCUMENT;
 import static javax.xml.stream.XMLStreamConstants.END_ELEMENT;
 import static javax.xml.stream.XMLStreamConstants.START_ELEMENT;
@@ -82,8 +86,8 @@ public class WarHandler extends AbstractArchiveHandler {
     private static final String DEFAULT_CONTEXT_XML = "config/context.xml";
 
     // the following two system properties need to be in sync with DOLUtils
-    private static final boolean gfDDOverWLSDD = Boolean.valueOf(System.getProperty("gfdd.over.wlsdd"));
-    private static final boolean ignoreWLSDD = Boolean.valueOf(System.getProperty("ignore.wlsdd"));
+    private static final boolean gfDDOverWLSDD = Boolean.getBoolean("gfdd.over.wlsdd");
+    private static final boolean ignoreWLSDD = Boolean.getBoolean("ignore.wlsdd");
 
     @Inject
     @Named(WarArchiveType.ARCHIVE_TYPE)
@@ -143,7 +147,7 @@ public class WarHandler extends AbstractArchiveHandler {
             WebXmlParser webXmlParser = getWebXmlParser(context.getSource());
             configureLoaderAttributes(cloader, webXmlParser, base);
             configureLoaderProperties(cloader, webXmlParser, base);
-            configureContextXmlAttribute(cloader, base, context);
+            configureContextXmlAttributes(cloader, base, context);
         } catch(XMLStreamException | IOException xse) {
             LOG.log(SEVERE, xse.getMessage(), xse);
         }
@@ -249,78 +253,90 @@ public class WarHandler extends AbstractArchiveHandler {
                     cloader.addJar(file.getPath().substring(baseFileLen), file);
                 }
             } catch (final Exception e) {
-                LOG.log(Level.FINEST, "Could not add file " + file, e);
+                LOG.log(FINEST, "Could not add file " + file, e);
             }
         }
     }
 
 
-    protected void configureContextXmlAttribute(WebappClassLoader cloader, File base, DeploymentContext dc)
+    protected void configureContextXmlAttributes(WebappClassLoader cloader, File base, DeploymentContext dc)
         throws XMLStreamException, IOException {
-        boolean consistent = true;
-        Boolean value = null;
+        Boolean clearReferencesStatic = null;
+        Boolean antiJARLocking = null;
+
         File warContextXml = new File(base.getAbsolutePath(), WAR_CONTEXT_XML);
         if (warContextXml.exists()) {
             ContextXmlParser parser = new ContextXmlParser(warContextXml);
-            value = parser.getClearReferencesStatic();
+            clearReferencesStatic = getContextXmlAttribute(ContextXmlParser::getClearReferencesStatic, List.of(parser));
+            antiJARLocking = getContextXmlAttribute(ContextXmlParser::getAntiJARLocking, List.of(parser));
         }
 
-        if (value == null) {
-            Boolean domainCRS = null;
-            File defaultContextXml = new File(serverEnvironment.getInstanceRoot(), DEFAULT_CONTEXT_XML);
-            if (defaultContextXml.exists()) {
-                ContextXmlParser parser = new ContextXmlParser(defaultContextXml);
-                domainCRS = parser.getClearReferencesStatic();
+        if (clearReferencesStatic == null || antiJARLocking == null) {
+            List<ContextXmlParser> defaultParsers = getDefaultContextXmlParsers(dc);
+            if (clearReferencesStatic == null) {
+                clearReferencesStatic = getContextXmlAttribute(ContextXmlParser::getClearReferencesStatic, defaultParsers);
             }
-
-            List<Boolean> csrs = new ArrayList<>();
-            HttpService httpService = serverConfig.getHttpService();
-            DeployCommandParameters params = dc.getCommandParameters(DeployCommandParameters.class);
-            String vsIDs = params.virtualservers;
-            List<String> vsList = StringUtils.parseStringList(vsIDs, " ,");
-            if (httpService != null && vsList != null && !vsList.isEmpty()) {
-                for (VirtualServer vsBean : httpService.getVirtualServer()) {
-                    if (vsList.contains(vsBean.getId())) {
-                        Boolean csr = null;
-                        Property prop = vsBean.getProperty("contextXmlDefault");
-                        if (prop != null) {
-                            File contextXml = new File(serverEnvironment.getInstanceRoot(), prop.getValue());
-                            if (contextXml.exists()) { // vs context.xml
-                                ContextXmlParser parser = new ContextXmlParser(contextXml);
-                                csr = parser.getClearReferencesStatic();
-                            }
-                        }
-
-                        if (csr == null) {
-                            csr = domainCRS;
-                        }
-                        csrs.add(csr);
-                    }
-                }
-
-                // check that it is consistent
-                for (Boolean b : csrs) {
-                    if (b != null) {
-                        if (value != null && !b.equals(value)) {
-                            consistent = false;
-                            break;
-                        }
-                        value = b;
-                    }
-                }
-
+            if (antiJARLocking == null) {
+                antiJARLocking = getContextXmlAttribute(ContextXmlParser::getAntiJARLocking, defaultParsers);
             }
         }
 
-        if (consistent) {
-            if (value != null) {
-                cloader.setClearReferencesStatic(value);
-            }
-        } else if (LOG.isLoggable(Level.WARNING)) {
-            LOG.log(Level.WARNING, LogFacade.INCONSISTENT_CLEAR_REFERENCE_STATIC);
+        if (clearReferencesStatic != null) {
+            cloader.setClearReferencesStatic(clearReferencesStatic);
+        }
+        if (antiJARLocking != null) {
+            cloader.setAntiJARLocking(antiJARLocking);
         }
     }
 
+    private List<ContextXmlParser> getDefaultContextXmlParsers(DeploymentContext context)
+        throws XMLStreamException, IOException {
+        List<ContextXmlParser> defaultParsers = new ArrayList<>();
+
+        File instanceRoot = serverEnvironment.getInstanceRoot();
+
+        File domainContextXml = new File(instanceRoot, DEFAULT_CONTEXT_XML);
+        if (domainContextXml.exists()) {
+            defaultParsers.add(new ContextXmlParser(domainContextXml));
+        }
+
+        HttpService httpService = serverConfig.getHttpService();
+        DeployCommandParameters commandParameters = context.getCommandParameters(DeployCommandParameters.class);
+        List<String> virtualServers = StringUtils.parseStringList(commandParameters.getVirtualServers(), " ,");
+        if (httpService != null && virtualServers != null && !virtualServers.isEmpty()) {
+            for (VirtualServer virtualServer : httpService.getVirtualServer()) {
+                if (virtualServers.contains(virtualServer.getId())) {
+                    Property contextXmlDefault = virtualServer.getProperty("contextXmlDefault");
+                    if (contextXmlDefault != null) {
+                        File defaultContextXml = new File(instanceRoot, contextXmlDefault.getValue());
+                        if (defaultContextXml.exists()) {
+                            defaultParsers.add(new ContextXmlParser(defaultContextXml));
+                        }
+                    }
+                }
+            }
+        }
+
+        return defaultParsers;
+    }
+
+    private <T> T getContextXmlAttribute(Function<ContextXmlParser, XmlAttribute<T>> attribute,
+        List<ContextXmlParser> parsers) {
+        T attributeValue = null;
+        for (ContextXmlParser parser : parsers) {
+            XmlAttribute<T> xmlAttribute = attribute.apply(parser);
+            if (xmlAttribute != null) {
+                T value = xmlAttribute.getValue();
+                if (attributeValue != null && !attributeValue.equals(value)) {
+                    LOG.log(WARNING, LogFacade.INCONSISTENT_CONTEXT_XML_ATTRIBUTE, xmlAttribute.getName());
+                    attributeValue = null;
+                    break;
+                }
+                attributeValue = value;
+            }
+        }
+        return attributeValue;
+    }
 
     /**
      * Returns the classpath URIs for this archive.
@@ -342,13 +358,13 @@ public class WarHandler extends AbstractArchiveHandler {
                 }
             }
         } catch (Exception e) {
-            LOG.log(Level.WARNING, e.getMessage(), e);
+            LOG.log(WARNING, e.getMessage(), e);
         }
         return uris;
     }
 
     // ---- inner class ----
-    protected abstract class BaseXmlParser {
+    protected abstract static class BaseXmlParser {
 
         protected XMLStreamReader parser;
 
@@ -406,7 +422,26 @@ public class WarHandler extends AbstractArchiveHandler {
 
     }
 
-    protected abstract class WebXmlParser extends BaseXmlParser {
+    protected static class XmlAttribute<T> {
+
+        private final String name;
+        private final T value;
+
+        protected XmlAttribute(String name, T value) {
+            this.name = Objects.requireNonNull(name, "The name cannot be null");
+            this.value = Objects.requireNonNull(value, "The value cannot be null");
+        }
+
+        protected String getName() {
+            return name;
+        }
+
+        protected T getValue() {
+            return value;
+        }
+    }
+
+    protected abstract static class WebXmlParser extends BaseXmlParser {
 
         protected boolean delegate = WebappClassLoader.DELEGATE_DEFAULT;
         protected boolean ignoreHiddenJarFiles = false;
@@ -414,7 +449,7 @@ public class WarHandler extends AbstractArchiveHandler {
         protected String extraClassPath = null;
         protected String versionIdentifier = null;
 
-        WebXmlParser(ReadableArchive archive) throws XMLStreamException, IOException {
+        WebXmlParser(ReadableArchive archive) throws IOException {
             if (archive.exists(getXmlFileName())) {
                 try (InputStream is = archive.getEntry(getXmlFileName())) {
                     init(is);
@@ -455,7 +490,7 @@ public class WarHandler extends AbstractArchiveHandler {
         }
     }
 
-    protected class SunWebXmlParser extends WebXmlParser {
+    protected static class SunWebXmlParser extends WebXmlParser {
         // XXX need to compute the default delegate depending on the version of dtd
         /*
          * The DOL will *always* return a value: If 'delegate' has not been
@@ -465,7 +500,7 @@ public class WarHandler extends AbstractArchiveHandler {
          * sun-web-app_2_4-0.dtd.
          */
 
-        SunWebXmlParser(ReadableArchive archive) throws XMLStreamException, IOException {
+        SunWebXmlParser(ReadableArchive archive) throws IOException {
             super(archive);
         }
 
@@ -497,7 +532,7 @@ public class WarHandler extends AbstractArchiveHandler {
                         for (int i = 0; i < count; i++) {
                             String attrName = parser.getAttributeName(i).getLocalPart();
                             if ("delegate".equals(attrName)) {
-                                delegate = Boolean.valueOf(parser.getAttributeValue(i));
+                                delegate = Boolean.parseBoolean(parser.getAttributeValue(i));
                             } else if ("extra-class-path".equals(attrName)) {
                                 extraClassPath = parser.getAttributeValue(i);
                             } else if ("dynamic-reload-interval".equals(attrName)) {
@@ -529,7 +564,7 @@ public class WarHandler extends AbstractArchiveHandler {
                         }
 
                         if ("ignoreHiddenJarFiles".equals(propName)) {
-                            ignoreHiddenJarFiles = Boolean.valueOf(value);
+                            ignoreHiddenJarFiles = Boolean.parseBoolean(value);
                         } else {
                             Object[] params = {propName, value};
                             if (LOG.isLoggable(Level.WARNING)) {
@@ -554,9 +589,9 @@ public class WarHandler extends AbstractArchiveHandler {
                         }
 
                         if ("useMyFaces".equalsIgnoreCase(propName)) {
-                            useBundledJSF = Boolean.valueOf(value);
+                            useBundledJSF = Boolean.parseBoolean(value);
                         } else if ("useBundledJsf".equalsIgnoreCase(propName)) {
-                            useBundledJSF = Boolean.valueOf(value);
+                            useBundledJSF = Boolean.parseBoolean(value);
                         }
                     } else if ("version-identifier".equals(name)) {
                         versionIdentifier = parser.getElementText();
@@ -572,9 +607,9 @@ public class WarHandler extends AbstractArchiveHandler {
         }
     }
 
-    protected class GlassFishWebXmlParser extends SunWebXmlParser {
+    protected static class GlassFishWebXmlParser extends SunWebXmlParser {
 
-        GlassFishWebXmlParser(ReadableArchive archive) throws XMLStreamException, IOException {
+        GlassFishWebXmlParser(ReadableArchive archive) throws IOException {
             super(archive);
         }
 
@@ -591,9 +626,9 @@ public class WarHandler extends AbstractArchiveHandler {
         }
     }
 
-    protected class WeblogicXmlParser extends WebXmlParser {
+    protected static class WeblogicXmlParser extends WebXmlParser {
 
-        WeblogicXmlParser(ReadableArchive archive) throws XMLStreamException, IOException {
+        WeblogicXmlParser(ReadableArchive archive) throws IOException {
             super(archive);
         }
 
@@ -626,9 +661,10 @@ public class WarHandler extends AbstractArchiveHandler {
         }
     }
 
-    protected class ContextXmlParser extends BaseXmlParser {
+    protected static class ContextXmlParser extends BaseXmlParser {
 
-        protected Boolean clearReferencesStatic;
+        private XmlAttribute<Boolean> clearReferencesStatic;
+        private XmlAttribute<Boolean> antiJARLocking;
 
         ContextXmlParser(File contextXmlFile) throws XMLStreamException, IOException {
             if (contextXmlFile.exists()) {
@@ -650,24 +686,28 @@ public class WarHandler extends AbstractArchiveHandler {
         protected void read(InputStream input) throws XMLStreamException {
             parser = getXMLInputFactory().createXMLStreamReader(input);
 
-            int event = 0;
+            int event;
             while (parser.hasNext() && (event = parser.next()) != END_DOCUMENT) {
                 if (event == START_ELEMENT) {
                     String name = parser.getLocalName();
                     if ("Context".equals(name)) {
                         String path = null;
-                        Boolean crs = null;
                         int count = parser.getAttributeCount();
                         for (int i = 0; i < count; i++) {
                             String attrName = parser.getAttributeName(i).getLocalPart();
                             if ("clearReferencesStatic".equals(attrName)) {
-                                crs = Boolean.valueOf(parser.getAttributeValue(i));
+                                clearReferencesStatic = new XmlAttribute<>(attrName,
+                                    Boolean.parseBoolean(parser.getAttributeValue(i)));
                             } else if ("path".equals(attrName)) {
                                 path = parser.getAttributeValue(i);
+                            } else if ("antiJARLocking".equals(attrName)) {
+                                antiJARLocking = new XmlAttribute<>(attrName,
+                                    Boolean.parseBoolean(parser.getAttributeValue(i)));
                             }
                         }
-                        if (path == null) { // make sure no path associated to it
-                            clearReferencesStatic = crs;
+                        // make sure no path associated to it
+                        if (path != null) {
+                            clearReferencesStatic = null;
                             break;
                         }
                     } else {
@@ -677,9 +717,12 @@ public class WarHandler extends AbstractArchiveHandler {
             }
         }
 
-
-        Boolean getClearReferencesStatic() {
+        XmlAttribute<Boolean> getClearReferencesStatic() {
             return clearReferencesStatic;
+        }
+
+        XmlAttribute<Boolean> getAntiJARLocking() {
+            return antiJARLocking;
         }
     }
 }

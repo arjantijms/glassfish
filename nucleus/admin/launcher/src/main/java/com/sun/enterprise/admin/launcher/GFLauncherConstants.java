@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024, 2025 Contributors to the Eclipse Foundation.
+ * Copyright (c) 2024, 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 2009, 2018 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -26,8 +26,6 @@ class GFLauncherConstants {
     static final String JAVA_NATIVE_SYSPROP_NAME = "java.library.path";
     static final String NEWLINE = System.getProperty("line.separator");
     static final String LIBDIR = "lib";
-    static final String SPARC = "sparc";
-    static final String SPARCV9 = "sparcv9";
     static final String X86 = "x86";
     static final String AMD64 = "amd64";
     static final String NATIVE_LIB_PREFIX = "native-library-path-prefix";

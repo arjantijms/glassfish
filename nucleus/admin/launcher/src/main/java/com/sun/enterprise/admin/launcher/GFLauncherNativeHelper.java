@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024, 2025 Contributors to the Eclipse Foundation.
+ * Copyright (c) 2024, 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 2009, 2018 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -24,8 +24,6 @@ import java.io.File;
 import static com.sun.enterprise.admin.launcher.GFLauncherConstants.AMD64;
 import static com.sun.enterprise.admin.launcher.GFLauncherConstants.JAVA_NATIVE_SYSPROP_NAME;
 import static com.sun.enterprise.admin.launcher.GFLauncherConstants.LIBDIR;
-import static com.sun.enterprise.admin.launcher.GFLauncherConstants.SPARC;
-import static com.sun.enterprise.admin.launcher.GFLauncherConstants.SPARCV9;
 import static com.sun.enterprise.admin.launcher.GFLauncherConstants.X86;
 import static com.sun.enterprise.universal.io.SmartFile.sanitize;
 import static java.io.File.pathSeparatorChar;
@@ -118,9 +116,7 @@ class GFLauncherNativeHelper {
         String osArch = System.getProperty("os.arch");
         File f64 = null;
 
-        if (osArch.equals(SPARC)) {
-            f64 = new File(libDir, SPARCV9);
-        } else if (osArch.equals(X86)) {
+        if (osArch.equals(X86)) {
             f64 = new File(libDir, AMD64);
         }
 

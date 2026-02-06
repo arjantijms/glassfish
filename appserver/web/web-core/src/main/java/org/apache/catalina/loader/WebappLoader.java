@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2022, 2023 Contributors to the Eclipse Foundation
+ * Copyright (c) 2022, 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2018 Oracle and/or its affiliates. All rights reserved.
  * Copyright 2004 The Apache Software Foundation
  *
@@ -229,7 +229,7 @@ public class WebappLoader implements Lifecycle, Loader, PropertyChangeListener {
 
         // Deregister from the old Container (if any)
         if ((this.container != null) && (this.container instanceof Context)) {
-            ((Context) this.container).removePropertyChangeListener(this);
+            this.container.removePropertyChangeListener(this);
         }
 
         // Process this property change
@@ -240,7 +240,7 @@ public class WebappLoader implements Lifecycle, Loader, PropertyChangeListener {
         // Register with the new Container (if any)
         if (this.container instanceof Context) {
             setReloadable(((Context) this.container).getReloadable());
-            ((Context) this.container).addPropertyChangeListener(this);
+            this.container.addPropertyChangeListener(this);
         }
     }
 
@@ -637,11 +637,6 @@ public class WebappLoader implements Lifecycle, Loader, PropertyChangeListener {
                 setReloadable(((Boolean) event.getNewValue()).booleanValue());
             } catch (NumberFormatException e) {
                 log.log(SEVERE, SET_RELOADABLE_PROPERTY_EXCEPTION, neutralizeForLog(event.getNewValue().toString()));
-            }
-        } else if ("antiJARLocking".equals(propName)) {
-            ClassLoader cloader = Thread.currentThread().getContextClassLoader();
-            if (cloader instanceof WebappClassLoader) {
-                ((WebappClassLoader) cloader).setAntiJARLocking(((Boolean) event.getNewValue()).booleanValue());
             }
         }
     }

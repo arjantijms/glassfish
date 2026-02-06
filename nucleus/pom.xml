@@ -94,26 +94,22 @@
         <glassfishbuild-maven-plugin.assemblyInputDirectory>${project.build.outputDirectory}</glassfishbuild-maven-plugin.assemblyInputDirectory>
     </properties>
 
-    <repositories>
-        <repository>
-            <id>central</id>
-            <url>https://repo1.maven.org/maven2</url>
-            <releases>
-                <checksumPolicy>fail</checksumPolicy>
-            </releases>
-        </repository>
-        <repository>
-            <id>sonatype-oss-snapshots</id>
-            <url>https://central.sonatype.com/repository/maven-snapshots</url>
-            <releases>
-                <enabled>false</enabled>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <checksumPolicy>fail</checksumPolicy>
-            </snapshots>
-        </repository>
-    </repositories>
+    <dependencyManagement>
+        <dependencies>
+            <!-- Jakarta CDI -->
+            <dependency>
+                <groupId>jakarta.enterprise</groupId>
+                <artifactId>jakarta.enterprise.cdi-api</artifactId>
+                <version>${jakarta.cdi-api.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>jakarta.inject</groupId>
+                        <artifactId>jakarta.inject</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <build>
         <pluginManagement>

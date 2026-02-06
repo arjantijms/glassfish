@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2023, 2024 Contributors to the Eclipse Foundation.
+ * Copyright (c) 2023, 2026 Contributors to the Eclipse Foundation.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -42,11 +42,11 @@ import static org.glassfish.main.itest.tools.asadmin.AsadminResultMatcher.asadmi
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.condition.JRE.JAVA_11;
-import static org.junit.jupiter.api.condition.JRE.JAVA_16;
-import static org.junit.jupiter.api.condition.JRE.JAVA_17;
-import static org.objectweb.asm.Opcodes.V11;
-import static org.objectweb.asm.Opcodes.V17;
+import static org.junit.jupiter.api.condition.JRE.JAVA_21;
+import static org.junit.jupiter.api.condition.JRE.JAVA_24;
+import static org.junit.jupiter.api.condition.JRE.JAVA_25;
+import static org.objectweb.asm.Opcodes.V21;
+import static org.objectweb.asm.Opcodes.V25;
 
 public class MultiReleaseEnterpriseApplicationLibraryTest extends MultiReleaseTestBase {
 
@@ -80,8 +80,8 @@ public class MultiReleaseEnterpriseApplicationLibraryTest extends MultiReleaseTe
     }
 
     @Test
-    @EnabledForJreRange(min = JAVA_11, max = JAVA_16)
-    public void testMultiReleaseEarLibProcessingJdk11(TestInfo testInfo) throws IOException {
+    @EnabledForJreRange(min = JAVA_21, max = JAVA_24)
+    public void testMultiReleaseEarLibProcessingJdk21(TestInfo testInfo) throws IOException {
         LOG.log(INFO, "Run test method {0}", testInfo.getTestMethod().orElseThrow().getName());
         HttpURLConnection connection = GlassFishTestEnvironment.openConnection(8080, CONTEXT_ROOT);
         connection.setRequestMethod("GET");
@@ -89,7 +89,7 @@ public class MultiReleaseEnterpriseApplicationLibraryTest extends MultiReleaseTe
             assertAll(
                 () -> assertThat(connection.getResponseCode(), equalTo(200)),
                 // Check version of loaded class file
-                () -> assertThat(Integer.parseInt(HttpParser.readResponseInputStream(connection)), equalTo(V11))
+                () -> assertThat(Integer.parseInt(HttpParser.readResponseInputStream(connection)), equalTo(V21))
             );
         } finally {
             connection.disconnect();
@@ -97,8 +97,8 @@ public class MultiReleaseEnterpriseApplicationLibraryTest extends MultiReleaseTe
     }
 
     @Test
-    @EnabledForJreRange(min = JAVA_17)
-    public void testMultiReleaseEarLibProcessingJdk17(TestInfo testInfo) throws IOException {
+    @EnabledForJreRange(min = JAVA_25)
+    public void testMultiReleaseEarLibProcessingJdk25(TestInfo testInfo) throws IOException {
         LOG.log(INFO, "Run test method {0}", testInfo.getTestMethod().orElseThrow().getName());
         HttpURLConnection connection = GlassFishTestEnvironment.openConnection(8080, CONTEXT_ROOT);
         connection.setRequestMethod("GET");
@@ -106,7 +106,7 @@ public class MultiReleaseEnterpriseApplicationLibraryTest extends MultiReleaseTe
             assertAll(
                 () -> assertThat(connection.getResponseCode(), equalTo(200)),
                 // Check version of loaded class file
-                () -> assertThat(Integer.parseInt(HttpParser.readResponseInputStream(connection)), equalTo(V17))
+                () -> assertThat(Integer.parseInt(HttpParser.readResponseInputStream(connection)), equalTo(V25))
             );
         } finally {
             connection.disconnect();
