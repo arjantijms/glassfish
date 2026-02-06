@@ -32,7 +32,7 @@
     &testproperties;
     &run;
 
-    <target name="all" depends="setup-policy,build,deploy,run,undeploy,restore-policy"/>
+    <target name="all" depends="build,deploy,run,undeploy"/>
 
     <target name="clean" depends="init-common">
       <antcall target="clean-common"/>
@@ -57,14 +57,6 @@
 
     <target name="build-publish-war" depends="build, publish-war-common" />
 
-    <target name="setup-policy" depends="init-common">
-        <move file="${env.S1AS_HOME}/domains/${admin.domain}/config/server.policy"
-              tofile="${env.S1AS_HOME}/domains/${admin.domain}/config/server.policy.SAVE"/>
-        <copy file="server.policy"
-              tofile="${env.S1AS_HOME}/domains/${admin.domain}/config/server.policy"/>
-        <antcall target="restart-server-instance-common"/>
-    </target>
-
     <target name="re-deploy" depends="init-common">
         <antcall target="deploy-war-common"/>
     </target>
@@ -87,12 +79,6 @@
 
     <target name="undeploy" depends="init-common">
         <antcall target="undeploy-war-common"/>
-    </target>
-
-    <target name="restore-policy" depends="setup-policy">
-        <move file="${env.S1AS_HOME}/domains/${admin.domain}/config/server.policy.SAVE"
-              tofile="${env.S1AS_HOME}/domains/${admin.domain}/config/server.policy"/>
-        <antcall target="restart-server-instance-common"/>
     </target>
 
     <target name="usage">

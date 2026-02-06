@@ -48,10 +48,10 @@ jdb -attach 9009
 For more information about the `jdb` debugger, see the following links:
 
 * Java Platform Debugger Architecture - The Java Debugger:
-`https://docs.oracle.com/en/java/javase/17/docs/specs/jpda/architecture.html`
-`https://docs.oracle.com/en/java/javase/17/docs/specs/jpda/jpda.html`
+`https://docs.oracle.com/en/java/javase/21/docs/specs/jpda/architecture.html`
+`https://docs.oracle.com/en/java/javase/21/docs/specs/jpda/jpda.html`
 * Java Platform Debugger Architecture - Connecting with JDB:
-`https://docs.oracle.com/en/java/javase/17/docs/specs/man/jdb.html`
+`https://docs.oracle.com/en/java/javase/21/docs/specs/man/jdb.html`
 
 {productName} debugging is based on the JPDA. For more information,
 see xref:#jpda-options[JPDA Options].

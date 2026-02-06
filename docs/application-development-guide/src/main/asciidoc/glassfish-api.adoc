@@ -40,6 +40,64 @@ In Maven project, you can add it as the following dependency:
 
 This will already add `scattered-archive-api.jar` as a transitive dependency.
 
+[[microprofile-jwt-integration]]
+#### MicroProfile JWT Integration
+
+The GlassFish API includes CDI qualifiers for integrating with built-in security mechanisms.
+
+[[microprofile-jwt-qualifier]]
+##### @MicroProfileJwtAuthenticationMechanism Qualifier
+
+The `@MicroProfileJwtAuthenticationMechanism` qualifier allows direct injection of the GlassFish built-in MicroProfile JWT authentication mechanism:
+
+```java
+import jakarta.inject.Inject;
+import jakarta.security.enterprise.authentication.mechanism.http.HttpAuthenticationMechanism;
+import org.glassfish.api.security.jwt.MicroProfileJwtAuthenticationMechanism;
+
+@ApplicationScoped
+public class SecurityService {
+
+    @Inject
+    @MicroProfileJwtAuthenticationMechanism
+    private HttpAuthenticationMechanism jwtAuthMechanism;
+
+    // Use the JWT authentication mechanism directly
+}
+```
+
+This qualifier provides:
+
+* **Direct Access**: Direct access to the GlassFish JWT authentication mechanism
+* **CDI Integration**: Seamless integration with CDI dependency injection
+* **Type Safety**: Uses the standard `HttpAuthenticationMechanism` interface
+
+The `@MicroProfileJwtAuthenticationMechanism` qualifier is complementary to the qualifiers for the standard Jakarta Security mechanisms like the Basic authentication mechanism. It can be combined with the other standard mechanisms in the same `HttpAuthenticationMechanismHandler`.
+
+Example:
+
+```
+@ApplicationScoped
+@Alternative
+@Priority(Interceptor.Priority.APPLICATION)
+public class CustomAuthenticationHandler implements HttpAuthenticationMechanismHandler {
+
+    @Inject
+    @MicroProfileJwtAuthenticationMechanism
+    HttpAuthenticationMechanism jwtAuthentication;
+
+    @Inject
+    @BasicAuthenticationMechanismDefinition.BasicAuthenticationMechanism
+    HttpAuthenticationMechanism basicAuthentication;
+
+    @Override
+    public AuthenticationStatus validateRequest(HttpServletRequest request, HttpServletResponse response, HttpMessageContext messageContext) throws AuthenticationException {
+        // delegate to one of the two mechanisms
+    }
+
+}
+```
+
 [[glassfish-ee-api]]
 ### GlassFish EE API
 

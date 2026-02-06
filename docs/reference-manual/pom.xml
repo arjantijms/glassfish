@@ -30,7 +30,7 @@
     <artifactId>reference-manual</artifactId>
     <packaging>jar</packaging>
 
-    <name>Eclipse GlassFish Reference Manual, Release 9</name>
+    <name>Eclipse GlassFish Reference Manual, Release 8</name>
 
     <properties>
       <pdf.toclevels>1</pdf.toclevels>

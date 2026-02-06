@@ -2,7 +2,7 @@
 layout: documentation
 ---
 
-# Eclipse GlassFish Documentation
+# Eclipse GlassFish Guides
 
 ## Current Release - ${glassfish.version.latest} {#current}
 
@@ -39,10 +39,12 @@ layout: documentation
 * [Upgrade Guide](docs/latest/upgrade-guide.html)
   ([pdf](docs/latest/upgrade-guide.pdf))
 
-### Documentation for other GlassFish versions {#older}
+### Guides for other GlassFish versions {#older}
 
 * [Development version (${project.version})](docs#development)
-* [${glassfish.version.5x} release](docs#${glassfish.version.5x})
+* [${glassfish.version.71x} release](docs#${glassfish.version.71x})
+* [${glassfish.version.7x} release](docs#${glassfish.version.7x})
+* [All other versions](docs)
 
 ## Documentation for GlassFish Docker images {#docker}
 

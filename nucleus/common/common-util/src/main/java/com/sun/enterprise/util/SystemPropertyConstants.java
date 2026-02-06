@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2024, 2025 Contributors to the Eclipse Foundation.
+ * Copyright (c) 2024, 2026 Contributors to the Eclipse Foundation.
  * Copyright (c) 1997, 2020 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
@@ -118,7 +118,7 @@ public class SystemPropertyConstants {
 
     public static final String getAdminScriptLocation(String installRoot) {
         StringBuilder sb = new StringBuilder();
-        String ext = OS.isWindows() ? OS.WINDOWS_BATCH_FILE_EXTENSION : "";
+        String ext = OS.isWindows() ? ".bat" : "";
         String ASADMIN = "nadmin";
         String suffix = new StringBuilder("lib").append(File.separator).append(ASADMIN).append(ext).toString();
 
@@ -133,7 +133,6 @@ public class SystemPropertyConstants {
     }
 
     /**
-<<<<<<< HEAD
      * Returns the component identifier associated with the INSTALL_ROOT. For example if INSTALL_ROOT is
      * /home/glassfish9/glassfish the component name will "glassfish".
      *
@@ -144,8 +143,6 @@ public class SystemPropertyConstants {
     }
 
     /**
-=======
->>>>>>> refs/remotes/origin/master
      * Returns the default timeout in milliseconds used in some Admin commands.
      *
      * @return The value of the system property {@link SystemPropertyConstants#DEFAULT_ADMIN_TIMEOUT_PROPERTY} or the

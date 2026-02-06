@@ -44,16 +44,4 @@ To Run a Single CDI Developer Test
 - ant all
 - perform tasks listed under "Test Setup Teardown"
 
-To Run CDI Developer Test Suite with Security Manager On
----------------------------------------------------------
-- start domain and enable security manager by 
-asadmin create-jvm-options -Djava.security.manager 
-- stop domain
-- Add the following permission block to $S1AS_HOME/domains/domain1/config/server.policy
-grant codeBase "file:${com.sun.aas.instanceRoot}/applications/-" {
-    permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
-};
-- restart domain
-- run tests
-
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2021, 2025 Contributors to the Eclipse Foundation.
+    Copyright (c) 2021, 2026 Contributors to the Eclipse Foundation.
     Copyright (c) 2017, 2025 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
@@ -19,7 +19,9 @@
 -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd"
+    child.project.url.inherit.append.path="false"
+    >
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -34,8 +36,8 @@
     <version>9.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Nucleus Parent</name>
-    <description>Glassfish Nucleus Parent Project</description>
+    <name>GlassFish Nucleus Parent</name>
+    <description>${project.name} ${project.version}</description>
     <url>https://projects.eclipse.org/projects/ee4j.glassfish</url>
     <licenses>
         <license>
@@ -60,11 +62,14 @@
         </mailingList>
     </mailingLists>
 
-    <scm>
+    <scm child.scm.connection.inherit.append.path="false"
+     child.scm.developerConnection.inherit.append.path="false"
+     child.scm.url.inherit.append.path="false">
         <connection>scm:git:git://github.com/eclipse-ee4j/glassfish.git</connection>
         <developerConnection>scm:git:git://github.com/eclipse-ee4j/glassfish.git</developerConnection>
         <url>https://github.com/eclipse-ee4j/glassfish</url>
     </scm>
+
     <issueManagement>
         <system>IssueTracker</system>
         <url>https://github.com/eclipse-ee4j/glassfish/issues</url>
@@ -94,7 +99,38 @@
             </snapshots>
         </repository>
     </distributionManagement>
+    <repositories>
+        <repository>
+            <id>central</id>
+            <url>https://repo1.maven.org/maven2</url>
+            <releases>
+                <checksumPolicy>fail</checksumPolicy>
+            </releases>
+        </repository>
+        <repository>
+            <id>central-portal-snapshots</id>
+            <url>https://central.sonatype.com/repository/maven-snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+
     <properties>
+
+        <!-- Supported Java versions -->
+        <java.version.required>21</java.version.required>
+        <java.version.max-supported>25</java.version.max-supported>
+        <java.version.jakartaee.required>17</java.version.jakartaee.required>
+
+        <!-- Jakarta EE platform -->
+        <jakartaee>11</jakartaee>
+        <jakarta.platform.version>11.0.0</jakarta.platform.version>
+
         <!-- Jakarta Expression Language -->
         <jakarta.el-api.version>6.0.1</jakarta.el-api.version>
         <expressly.version>6.0.0</expressly.version>
@@ -110,12 +146,17 @@
         <jakarta.xml.ws-api.version>4.0.2</jakarta.xml.ws-api.version>
 
         <!-- Jakarta SOAP (with Attachments) -->
-        <webservices.version>4.0.4</webservices.version>
+        <webservices.version>4.0.5</webservices.version>
 
         <!-- Jakarta Inject -->
         <jakarta.inject-api.version>2.0.1.MR</jakarta.inject-api.version>
         <hk2.version>4.0.0-M3</hk2.version>
         <hk2.plugin.version>4.0.0-M3</hk2.plugin.version>
+
+        <!-- Jakarta CDI -->
+        <jakarta.cdi-api.version>4.1.0</jakarta.cdi-api.version>
+        <weld.version>6.0.4.Final</weld.version>
+        <jboss.classfilewriter.version>1.3.1.Final</jboss.classfilewriter.version>
 
         <!-- Jakarta XML Binding -->
         <jakarta.xml.bind-api.version>4.0.4</jakarta.xml.bind-api.version>
@@ -123,24 +164,96 @@
 
         <!-- Jakarta REST -->
         <jakarta.rest-api.version>4.0.0</jakarta.rest-api.version>
-        <jersey.version>4.0.0</jersey.version>
+        <jersey.version>4.0.2</jersey.version>
 
         <!-- Jakarta Persistence -->
         <jakarta.persistence-api.version>3.2.0</jakarta.persistence-api.version>
+        <eclipselink.version>5.0.0-B13</eclipselink.version>
+        <eclipselink.asm.version>9.9.0</eclipselink.asm.version>
 
         <!-- Jakarta Mail -->
         <jakarta.mail-api.version>2.1.5</jakarta.mail-api.version>
         <angus.mail.version>2.0.5</angus.mail.version>
 
         <!-- Jakarta Activation -->
-        <activation.version>2.1.4</activation.version>
+        <jakarta.activation-api.version>2.1.4</jakarta.activation-api.version>
         <angus.activation.version>2.0.3</angus.activation.version>
 
         <!-- Jakarta Annotations -->
         <jakarta.annotation-api.version>3.0.0</jakarta.annotation-api.version>
 
+        <!-- Jakarta Faces -->
+        <jakarta.faces-api.version>4.1.2</jakarta.faces-api.version>
+        <mojarra.version>4.1.6</mojarra.version>
+
+        <!-- Jakarta WebSocket -->
+        <jakarta.websocket-api.version>2.2.0</jakarta.websocket-api.version>
+        <tyrus.version>2.2.2</tyrus.version>
+
+        <!-- Jakarta Concurrency -->
+        <jakarta.concurrent-api.version>3.1.1</jakarta.concurrent-api.version>
+        <concurro.version>3.1.0</concurro.version>
+
+        <!-- Jakarta Interceptors -->
+        <jakarta.interceptor-api.version>2.2.0</jakarta.interceptor-api.version>
+
+        <!-- Jakarta Security + Authentication/Authorization -->
+        <jakarta.security-api.version>4.0.0</jakarta.security-api.version>
+        <jakarta.authorization-api.version>3.0.0</jakarta.authorization-api.version>
+        <jakarta.authentication-api.version>3.1.0</jakarta.authentication-api.version>
+        <soteria.version>4.0.2</soteria.version>
+        <exousia.version>3.0.1</exousia.version>
+        <epicyro.version>3.1.1</epicyro.version>
+        <nimbus.version>10.7</nimbus.version>
+        <jcip.version>1.0.2</jcip.version>
+
+        <!-- Jakarta Messaging -->
+        <jakarta.messaging-api.version>3.1.0</jakarta.messaging-api.version>
+        <openmq.version>6.7.0</openmq.version>
+
+        <!-- Jakarta Data / NoSQL -->
+        <jakarta.data-api.version>1.0.1</jakarta.data-api.version>
+        <jakarta.data.spec.version>1.0</jakarta.data.spec.version>
+        <jakarta.nosql-api.version>1.0.1</jakarta.nosql-api.version>
+        <jakarta.nosql.spec.version>1.0.1</jakarta.nosql.spec.version>
+        <jnosql.version>1.1.12</jnosql.version>
+
+        <!-- Jakarta Transactions -->
+        <jakarta.transaction-api.version>2.0.1</jakarta.transaction-api.version>
+
+        <!-- Jakarta Connectors -->
+        <jakarta.resource-api.version>2.1.0</jakarta.resource-api.version>
+
+        <!-- Jakarta Batch -->
+        <jakarta.batch-api.version>2.1.1</jakarta.batch-api.version>
+        <jbatch.version>2.1.1</jbatch.version>
+
+        <!-- Jakarta Enterprise beans -->
+        <jakarta.ejb-api.version>4.0.1</jakarta.ejb-api.version>
+
+        <!-- Jakarta JSON -->
+        <jakarta.jsonp-api.version>2.1.3</jakarta.jsonp-api.version>
+        <parsson.version>1.1.7</parsson.version>
+        <parsson-media.version>1.1.7</parsson-media.version>
+        <jakarta.json.bind-api.version>3.0.1</jakarta.json.bind-api.version>
+        <yasson.version>3.0.4</yasson.version>
+
+        <!-- Jakarta Pages and Jakarta Standard Tag Library -->
+        <jakarta.pages-api.version>4.0.0</jakarta.pages-api.version>
+        <jstl-api.version>3.0.2</jstl-api.version>
+        <wasp.version>4.0.0</wasp.version>
+
+        <!-- Jakarta MVC -->
+        <jakarta.mvc-api.version>3.0.0</jakarta.mvc-api.version>
+        <krazo.version>4.0.1</krazo.version>
+
+        <!-- Jakarta SOAP (XML Web Services) -->
+        <xmlsec.version>4.0.4</xmlsec.version>
+        <woodstox.version>7.1.1</woodstox.version>
+        <stax2-api.version>4.2.2</stax2-api.version>
+
         <!-- GlassFish Components -->
-        <grizzly.version>4.1.0-M1</grizzly.version>
+        <grizzly.version>5.0.0</grizzly.version>
         <grizzly.npn.version>2.0.0</grizzly.npn.version>
         <glassfish-management-api.version>3.3.0</glassfish-management-api.version>
 
@@ -149,7 +262,7 @@
         <glassfish-corba.version>5.0.0</glassfish-corba.version>
         <gmbal.version>4.1.0</gmbal.version>
 
-        <shoal.version>3.1.0</shoal.version>
+        <shoal.version>4.0.0</shoal.version>
         <ha-api.version>3.1.13</ha-api.version>
         <logging-annotation-processor.version>1.10</logging-annotation-processor.version>
         <command.security.maven.plugin.isFailureFatal>true</command.security.maven.plugin.isFailureFatal>
@@ -158,19 +271,18 @@
         <commons-io.version>2.21.0</commons-io.version>
         <commons-lang3.version>3.20.0</commons-lang3.version>
         <jboss.logging.annotation.version>3.0.4.Final</jboss.logging.annotation.version>
-        <jboss.logging.version>3.6.1.Final</jboss.logging.version>
+        <jboss.logging.version>3.6.2.Final</jboss.logging.version>
         <javassist.version>3.30.2-GA</javassist.version>
-        <asm.version>9.9</asm.version>
+        <asm.version>9.9.1</asm.version>
         <jsch.version>2.27.7</jsch.version>
         <antlr2.version>2.7.7</antlr2.version>
         <antlr2-repackaged.version>2.7.8</antlr2-repackaged.version>
         <antlr4.version>4.13.2</antlr4.version>
-        <!-- Warning: updating Ant to e.g. 1.10.5 will cause ElementStarITest.testLoadBalancerConfigs to fail -->
-        <ant.version>1.10.2</ant.version>
+        <ant.version>1.10.15</ant.version>
         <ant.external.version>1.10.2</ant.external.version>
-        <jackson.version>2.20.1</jackson.version>
-        <jackson.version2>2.20</jackson.version2>
-        <fasterxml.classmate.version>1.7.1</fasterxml.classmate.version>
+        <jackson.version>2.21.0</jackson.version>
+        <jackson.version2>2.21</jackson.version2>
+        <fasterxml.classmate.version>1.7.3</fasterxml.classmate.version>
         <stax-api.version>1.0-2</stax-api.version>
         <jettison.version>1.5.4</jettison.version>
         <mimepull.version>1.10.0</mimepull.version>
@@ -178,8 +290,7 @@
         <replacer.plugin.version>1.5.3</replacer.plugin.version>
 
         <easymock.version>5.6.0</easymock.version>
-        <junit.version>5.14.0</junit.version>
-        <junit-platform.version>1.14.0</junit-platform.version>
+        <junit.version>6.0.2</junit.version>
         <jmh.version>1.37</jmh.version>
         <osgi-resource-locator.version>3.0.0</osgi-resource-locator.version>
         <slf4j.version>2.0.17</slf4j.version>
@@ -196,7 +307,7 @@
         <deploy.skip>false</deploy.skip>
 
         <!-- Overrides the value from parent and enables the one we generate. -->
-        <project.build.outputTimestamp>2025-10-03T11:11:49Z</project.build.outputTimestamp>
+        <project.build.outputTimestamp>2026-02-04T18:29:07Z</project.build.outputTimestamp>
 
         <!-- Show to developers by default -->
         <checkstyle.consoleOutput>true</checkstyle.consoleOutput>
@@ -366,7 +477,7 @@
             <dependency>
                 <groupId>jakarta.activation</groupId>
                 <artifactId>jakarta.activation-api</artifactId>
-                <version>${activation.version}</version>
+                <version>${jakarta.activation-api.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.eclipse.angus</groupId>
@@ -382,7 +493,6 @@
             </dependency>
 
 
-
             <!-- GlassFish Components -->
 
             <!-- GlassFish Corba -->
@@ -393,7 +503,7 @@
                 <exclusions>
                     <exclusion>
                         <groupId>org.osgi</groupId>
-                        <artifactId>org.osgi.core</artifactId>
+                        <artifactId>osgi.core</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
@@ -732,20 +842,20 @@
             </dependency>
             <dependency>
                 <groupId>org.junit.platform</groupId>
-                <artifactId>junit-platform-suite-engine</artifactId>
-                <version>${junit-platform.version}</version>
-                <scope>test</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.junit.platform</groupId>
                 <artifactId>junit-platform-engine</artifactId>
-                <version>${junit-platform.version}</version>
+                <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
                 <groupId>org.junit.platform</groupId>
                 <artifactId>junit-platform-commons</artifactId>
-                <version>${junit-platform.version}</version>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.platform</groupId>
+                <artifactId>junit-platform-suite-engine</artifactId>
+                <version>${junit.version}</version>
                 <scope>test</scope>
             </dependency>
             <dependency>
@@ -900,7 +1010,7 @@
                 </plugin>
                 <plugin>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.14.1</version>
+                    <version>3.15.0</version>
                     <configuration>
                         <release>21</release>
                         <excludes>
@@ -1087,7 +1197,7 @@
                         <dependency>
                             <groupId>com.puppycrawl.tools</groupId>
                             <artifactId>checkstyle</artifactId>
-                            <version>12.2.0</version>
+                            <version>12.3.1</version>
                         </dependency>
                     </dependencies>
                     <executions>
@@ -1132,11 +1242,11 @@
                 <plugin>
                     <groupId>io.github.download-maven-plugin</groupId>
                     <artifactId>download-maven-plugin</artifactId>
-                    <version>2.0.0</version>
+                    <version>2.1.0</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-release-plugin</artifactId>
-                    <version>3.3.0</version>
+                    <version>3.3.1</version>
                 </plugin>
                 <plugin>
                     <artifactId>maven-resources-plugin</artifactId>
@@ -1152,13 +1262,59 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>exec-maven-plugin</artifactId>
-                    <version>3.6.2</version>
+                    <version>3.6.3</version>
                     <configuration>
                         <environmentVariables>
                             <AS_JAVA>${java.home}</AS_JAVA>
                             <JAVA_HOME>${java.home}</JAVA_HOME>
                         </environmentVariables>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>flatten-maven-plugin</artifactId>
+                    <version>1.7.3</version>
+                    <configuration>
+                        <updatePomFile>true</updatePomFile>
+                        <flattenedPomFilename>${project.build.directory}/flattened-pom.xml</flattenedPomFilename>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>flat-jar</id>
+                            <goals>
+                                <goal>flatten</goal>
+                            </goals>
+                            <configuration>
+                                <flattenMode>oss</flattenMode>
+                                <pomElements>
+                                    <url />
+                                    <scm />
+                                    <repositories>flatten</repositories>
+                                    <distributionManagement>flatten</distributionManagement>
+                                </pomElements>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>archive-with-dependencies</id>
+                            <goals>
+                                <goal>flatten</goal>
+                            </goals>
+                            <configuration>
+                                <flattenMode>fatjar</flattenMode>
+                                <pomElements>
+                                    <name />
+                                    <description />
+                                    <organization />
+                                    <url />
+                                    <scm />
+                                    <developers />
+                                    <inceptionYear />
+                                    <mailingLists />
+                                    <issueManagement />
+                                </pomElements>
+                            </configuration>
+                        </execution>
+                    </executions>
                 </plugin>
                 <plugin>
                     <artifactId>maven-assembly-plugin</artifactId>
@@ -1268,7 +1424,7 @@
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>versions-maven-plugin</artifactId>
-                    <version>2.19.1</version>
+                    <version>2.21.0</version>
                     <executions>
                         <execution>
                             <id>default-cli</id>
@@ -1283,6 +1439,35 @@
                                 -->
                                 <ruleSet>
                                     <rules>
+                                        <rule>
+                                            <ignoreVersions>
+                                                <ignoreVersion>
+                                                    <type>regex</type>
+                                                    <version>.*-M.*</version>
+                                                </ignoreVersion>
+                                                <ignoreVersion>
+                                                    <type>regex</type>
+                                                    <version>.*-beta-.*</version>
+                                                </ignoreVersion>
+                                                <!-- Should work but, of course, does not -->
+                                                <ignoreVersion>
+                                                    <version>8.0.0-DONTPUBLISH</version>
+                                                </ignoreVersion>
+                                                <ignoreVersion>
+                                                    <type>regex</type>
+                                                    <version>.*-RC.*</version>
+                                                </ignoreVersion>
+                                            </ignoreVersions>
+                                        </rule>
+
+                                        <rule>
+                                            <groupId>org.glassfish.main</groupId>
+                                            <ignoreVersions>
+                                                <ignoreVersion>
+                                                    <version>8.0.0-DONTPUBLISH</version>
+                                                </ignoreVersion>
+                                            </ignoreVersions>
+                                        </rule>
                                         <rule>
                                             <groupId>antlr</groupId>
                                             <artifactId>antlr</artifactId>
@@ -2109,7 +2294,7 @@
                 <plugin>
                     <groupId>org.sonatype.central</groupId>
                     <artifactId>central-publishing-maven-plugin</artifactId>
-                    <version>0.9.0</version>
+                    <version>0.10.0</version>
                     <extensions>true</extensions>
                     <configuration>
                         <autoPublish>${release.autopublish}</autoPublish>

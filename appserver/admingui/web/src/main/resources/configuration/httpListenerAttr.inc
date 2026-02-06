@@ -1,5 +1,6 @@
 <!--
 
+    Copyright (c) 2026 Contributors to the Eclipse Foundation
     Copyright (c) 2011, 2018 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
@@ -63,6 +64,11 @@
                 gf.getChildrenNamesList(endpoint="#{sessionScope.REST_URL}/configs/config/#{pageSession.configName}/thread-pools/thread-pool" result="#{pageSession.threadPoolList}");
             />
            </sun:dropDown>
+           <sun:hyperlink id="threadPoolEditLink" 
+                          text="$resource{i18n_web.grizzly.networkListener.editThreadPool}" 
+                          url="#{request.contextPath}/web/configuration/threadPoolEdit.jsf?name=#{pageSession.valueMap['threadPool']}&configName=#{pageSession.configName}"
+                          rendered="#{!empty pageSession.valueMap['threadPool']}"
+                          style="margin-left: 10px;" />
         </sun:property>
 
         <sun:property id="ServerNameProp"  labelAlign="left" noWrap="#{true}" overlapLabel="#{false}" label="$resource{i18n_web.http.serverNameLabel}" helpText="$resource{i18n_web.http.serverNameHelp}" >

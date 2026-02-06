@@ -14,7 +14,7 @@ Performance Tuning Guide
 
 Release 9
 
-Contributed 2018 - 2024
+Contributed 2018 - 2026
 
 This book describes how to get the best performance with {productName} 7.
 
@@ -24,6 +24,9 @@ This book describes how to get the best performance with {productName} 7.
 
 {productName} Performance Tuning Guide, Release 9
 
+Copyright (c) 2025 Contributors to the Eclipse Foundation. All rights reserved.
+
+Copyright © 2019,2026 Contributors to the Eclipse Foundation.
 Copyright © 2013, 2019 Oracle and/or its affiliates. All rights reserved.
 
 This program and the accompanying materials are made available under the

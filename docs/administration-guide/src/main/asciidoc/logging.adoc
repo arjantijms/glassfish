@@ -34,9 +34,9 @@ in the server runtime and determine the overall health of the server.
 Although application components can use other logging frameworks as
 `https://www.slf4j.org/[SLF4J]` or `https://logging.apache.org/log4j/2.x/[LOG4J2]`,
 we recommend to use the
-`https://docs.oracle.com/en/java/javase/17/docs/api/java.logging/java/util/logging/package-summary.html[Java Util Logging Framework]`
+`https://docs.oracle.com/en/java/javase/21/docs/api/java.logging/java/util/logging/package-summary.html[Java Util Logging Framework]`
 or even better it's latest facade
-`https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/lang/System.Logger.html[System.Logger]`.
+`https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/System.Logger.html[System.Logger]`.
 
 [WARNING]
 ====
@@ -429,7 +429,7 @@ Default is 100 Megabytes. The final file will be slightly larger.
 ===== SimpleLogHandler
 
 The `org.glassfish.main.jul.handler.SimpleLogHandler` has similar targets as the
-`https://docs.oracle.com/en/java/javase/17/docs/api/java.logging/java/util/logging/ConsoleHandler.html[`ConsoleHandler`]`,
+`https://docs.oracle.com/en/java/javase/21/docs/api/java.logging/java/util/logging/ConsoleHandler.html[`ConsoleHandler`]`,
 with few differences:
 
 * can be configured to use STDOUT instead of STDERR
@@ -524,7 +524,7 @@ See <<Excluded Fields>>
 * `multiline` - if set to `true` (default), the end of line character is inserted before the log message.
 * `printSequenceNumber` - if set to `true`, logs the sequence number of each log record. Default is `false`.
 * `printSource` - if set to `true`, logs the class and method which created the log record. Default is `false`.
-* `timestampFormat` - see the `https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/format/DateTimeFormatter.html[DateTimeFormatter]` documentation.
+* `timestampFormat` - see the `https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/format/DateTimeFormatter.html[DateTimeFormatter]` documentation.
 Default is `https://en.wikipedia.org/wiki/ISO_8601[ISO-8601]` timestamp with microseconds and time zone.
 
 
@@ -552,7 +552,7 @@ See <<Excluded Fields>>
 * `printSource` - if set to `true`, logs the class and method which created the log record. Default is `false`.
 * `recordMarker.begin` - the prefix of the log record, default is `[#|`.
 * `recordMarker.end` - the suffix of the log record, default is `|#]`.
-* `timestampFormat` - see the `https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/format/DateTimeFormatter.html[DateTimeFormatter]` documentation.
+* `timestampFormat` - see the `https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/format/DateTimeFormatter.html[DateTimeFormatter]` documentation.
 Default is `https://en.wikipedia.org/wiki/ISO_8601[ISO-8601]` timestamp with microseconds and time zone.
 
 [[OneLine]]
@@ -570,7 +570,7 @@ while when set to `false` it prefers the logger name.
 * `size.level` - number of characters taken by the level column. Default is 7.
 * `size.thread` - number of characters taken by the thread column. Default is 20.
 * `size.class` - number of characters taken by the class name column. Default is 60.
-* `timestampFormat` - see the `https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/time/format/DateTimeFormatter.html[DateTimeFormatter]` documentation.
+* `timestampFormat` - see the `https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/format/DateTimeFormatter.html[DateTimeFormatter]` documentation.
 Default is `https://en.wikipedia.org/wiki/ISO_8601[ISO-8601]` time with microseconds (not date, no timezone).
 
 
@@ -579,7 +579,7 @@ Default is `https://en.wikipedia.org/wiki/ISO_8601[ISO-8601]` time with microsec
 
 The full name is `java.util.logging.SimpleFormatter`. It is a default formatter provided by the JDK,
 simple but very flexible. It's most important property is `format`. Read the
-`https://docs.oracle.com/en/java/javase/17/docs/api/java.logging/java/util/logging/SimpleFormatter.html[documentation of the SimpleFormatter class]`
+`https://docs.oracle.com/en/java/javase/21/docs/api/java.logging/java/util/logging/SimpleFormatter.html[documentation of the SimpleFormatter class]`
 for more.
 
 [[asadmin]]

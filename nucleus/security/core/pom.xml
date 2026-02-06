@@ -135,12 +135,6 @@
                             <artifactItems>
                                 <artifactItem>
                                     <groupId>solarisrealm</groupId>
-                                    <artifactId>libsolsparcauth</artifactId>
-                                    <version>1.0</version>
-                                    <type>so</type>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>solarisrealm</groupId>
                                     <artifactId>libsolx86auth</artifactId>
                                     <version>1.0</version>
                                     <type>so</type>
@@ -158,7 +152,6 @@
                 <configuration>
                     <instructions>
                         <Bundle-NativeCode>
-                            libsolsparcauth.so; osname=SunOS; osname=Solaris; processor=sparc,
                             libsolx86auth.so; osname=SunOS; osname=Solaris; processor=x86,
                             *
                         </Bundle-NativeCode>

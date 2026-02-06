@@ -1,5 +1,5 @@
 
-# Eclipse GlassFish Documentation and User Guides
+# Eclipse GlassFish User Guides
 
 ## <a name="current">Current Release - ${glassfish.version.latest}</a>
 
@@ -70,6 +70,76 @@
   ([pdf](SNAPSHOT/troubleshooting-guide.pdf))
 * [Upgrade Guide](SNAPSHOT/upgrade-guide.html)
   ([pdf](SNAPSHOT/upgrade-guide.pdf))
+
+## <a name="${glassfish.version.71x}">${glassfish.version.71x} Release</a>
+
+* [Add On Component Development Guide](${glassfish.version.71x}/add-on-component-development-guide.html)
+  ([pdf](${glassfish.version.71x}/add-on-component-development-guide.pdf))
+* [Administration Guide](${glassfish.version.71x}/administration-guide.html)
+  ([pdf](${glassfish.version.71x}/administration-guide.pdf))
+* [Application Deployment Guide](${glassfish.version.71x}/application-deployment-guide.html)
+  ([pdf](${glassfish.version.71x}/application-deployment-guide.pdf))
+* [Application Development Guide](${glassfish.version.71x}/application-development-guide.html)
+  ([pdf](${glassfish.version.71x}/application-development-guide.pdf))
+* [Deployment Planning Guide](${glassfish.version.71x}/deployment-planning-guide.html)
+  ([pdf](${glassfish.version.71x}/deployment-planning-guide.pdf))
+* [Embedded Server Guide](${glassfish.version.71x}/embedded-server-guide.html)
+  ([pdf](${glassfish.version.71x}/embedded-server-guide.pdf))
+* [Error Messages Reference](${glassfish.version.71x}/error-messages-reference.html)
+  ([pdf](${glassfish.version.71x}/error-messages-reference.pdf))
+* [High Availability Administration Guide](${glassfish.version.71x}/ha-administration-guide.html)
+  ([pdf](${glassfish.version.71x}/ha-administration-guide.pdf))
+* [Installation Guide](${glassfish.version.71x}/installation-guide.html)
+  ([pdf](${glassfish.version.71x}/installation-guide.pdf))
+* [Performance Tuning Guide](${glassfish.version.71x}/performance-tuning-guide.html)
+  ([pdf](${glassfish.version.71x}/performance-tuning-guide.pdf))
+* [Quick Start Guide](${glassfish.version.71x}/quick-start-guide.html)
+  ([pdf](${glassfish.version.71x}/quick-start-guide.pdf))
+* [Reference Manual](${glassfish.version.71x}/reference-manual.html)
+  ([pdf](${glassfish.version.71x}/reference-manual.pdf))
+* [Release Notes](${glassfish.version.71x}/release-notes.html)
+  ([pdf](${glassfish.version.71x}/release-notes.pdf))
+* [Security Guide](${glassfish.version.71x}/security-guide.html)
+  ([pdf](${glassfish.version.71x}/security-guide.pdf))
+* [Troubleshooting Guide](${glassfish.version.71x}/troubleshooting-guide.html)
+  ([pdf](${glassfish.version.71x}/troubleshooting-guide.pdf))
+* [Upgrade Guide](${glassfish.version.71x}/upgrade-guide.html)
+  ([pdf](${glassfish.version.71x}/upgrade-guide.pdf))
+
+## <a name="${glassfish.version.7x}">${glassfish.version.7x} Release</a>
+
+* [Add On Component Development Guide](${glassfish.version.7x}/add-on-component-development-guide.html)
+  ([pdf](${glassfish.version.7x}/add-on-component-development-guide.pdf))
+* [Administration Guide](${glassfish.version.7x}/administration-guide.html)
+  ([pdf](${glassfish.version.7x}/administration-guide.pdf))
+* [Application Deployment Guide](${glassfish.version.7x}/application-deployment-guide.html)
+  ([pdf](${glassfish.version.7x}/application-deployment-guide.pdf))
+* [Application Development Guide](${glassfish.version.7x}/application-development-guide.html)
+  ([pdf](${glassfish.version.7x}/application-development-guide.pdf))
+* [Deployment Planning Guide](${glassfish.version.7x}/deployment-planning-guide.html)
+  ([pdf](${glassfish.version.7x}/deployment-planning-guide.pdf))
+* [Embedded Server Guide](${glassfish.version.7x}/embedded-server-guide.html)
+  ([pdf](${glassfish.version.7x}/embedded-server-guide.pdf))
+* [Error Messages Reference](${glassfish.version.7x}/error-messages-reference.html)
+  ([pdf](${glassfish.version.7x}/error-messages-reference.pdf))
+* [High Availability Administration Guide](${glassfish.version.7x}/ha-administration-guide.html)
+  ([pdf](${glassfish.version.7x}/ha-administration-guide.pdf))
+* [Installation Guide](${glassfish.version.7x}/installation-guide.html)
+  ([pdf](${glassfish.version.7x}/installation-guide.pdf))
+* [Performance Tuning Guide](${glassfish.version.7x}/performance-tuning-guide.html)
+  ([pdf](${glassfish.version.7x}/performance-tuning-guide.pdf))
+* [Quick Start Guide](${glassfish.version.7x}/quick-start-guide.html)
+  ([pdf](${glassfish.version.7x}/quick-start-guide.pdf))
+* [Reference Manual](${glassfish.version.7x}/reference-manual.html)
+  ([pdf](${glassfish.version.7x}/reference-manual.pdf))
+* [Release Notes](${glassfish.version.7x}/release-notes.html)
+  ([pdf](${glassfish.version.7x}/release-notes.pdf))
+* [Security Guide](${glassfish.version.7x}/security-guide.html)
+  ([pdf](${glassfish.version.7x}/security-guide.pdf))
+* [Troubleshooting Guide](${glassfish.version.7x}/troubleshooting-guide.html)
+  ([pdf](${glassfish.version.7x}/troubleshooting-guide.pdf))
+* [Upgrade Guide](${glassfish.version.7x}/upgrade-guide.html)
+  ([pdf](${glassfish.version.7x}/upgrade-guide.pdf))
 
 ## <a name="${glassfish.version.5x}">${glassfish.version.5x} Release</a>
 
